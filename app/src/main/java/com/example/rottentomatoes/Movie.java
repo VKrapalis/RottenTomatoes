@@ -7,6 +7,14 @@ import java.util.List;
 
 public class Movie {
 
+    @SerializedName("overview")
+    @Expose
+    private String overview;
+
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdrop;
+
     @SerializedName("id")
     @Expose
     private int id;
@@ -14,6 +22,10 @@ public class Movie {
     @SerializedName("title")
     @Expose
     private String title;
+
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
 
     @SerializedName("poster_path")
     @Expose
@@ -77,5 +89,29 @@ public class Movie {
 
     public void setGenreIds(List<Integer> genreIds) {
         this.genreIds = genreIds;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getBackdrop() {
+        return backdrop;
+    }
+
+    public void setBackdrop(String backdrop) {
+        this.backdrop = backdrop;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 }

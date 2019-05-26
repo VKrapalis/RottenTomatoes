@@ -1,5 +1,7 @@
 package com.example.rottentomatoes;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ public class MainActivityFragment extends Fragment {
 
     private RecyclerView moviesList;
     private MoviesAdapter adapter;
+    private SharedViewModel viewModel;
 
     private MoviesRepository moviesRepository;
 
@@ -43,35 +46,16 @@ public class MainActivityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View retView = inflater.inflate(R.layout.activity_main_fragment, container);
-
-
+        View retView = inflater.inflate(R.layout.activity_main_fragment, container, false);
 
         moviesRepository = MoviesRepository.getInstance();
-
 
         moviesList = (RecyclerView) retView.findViewById(R.id.movies_list);
         moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-
-
         getGenres();
-        /*adapter = new MoviesAdapter(movies, movieGenres);
-        moviesList.setAdapter(adapter);
-        if (adapter == null) {
-            adapter = new MoviesAdapter(movies, movieGenres);
-            moviesList.setAdapter(adapter);
-            moviesList.setItemAnimator(new DefaultItemAnimator());
-        } else {
-            adapter.appendMovies(movies);
-        }*/
 
         setupOnScrollListener();
-        //MoviesAdapter adapter = new MoviesAdapter();
-        //moviesList.setAdapter(adapter);
-        //moviesList.setItemAnimator(new DefaultItemAnimator());
-
 
 
         return retView;
@@ -122,7 +106,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onSuccess(int page, List<Movie> movies) {
                 if (adapter == null) {
-                    adapter = new MoviesAdapter(movies, movieGenres);
+                    adapter = new MoviesAdapter(movies, movieGenres, callback);
                     moviesList.setAdapter(adapter);
                 } else {
                     if (page == 1) {
@@ -132,6 +116,8 @@ public class MainActivityFragment extends Fragment {
                 }
                 currentPage = page;
                 isFetchingMovies = false;
+
+                //setTitle();
             }
 
             @Override
@@ -174,32 +160,35 @@ public class MainActivityFragment extends Fragment {
                 return false;
         }
     }
-};
-/*    sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
 
-             Every time we sort, we need to go back to page 1
-
-            currentPage = 1;
-
-                    switch (item.getItemId()) {
-                    case R.id.popular:
-                    sortBy = MoviesRepository.POPULAR;
-                    getMovies(currentPage);
-                    return true;
-                    case R.id.top_rated:
-                    sortBy = MoviesRepository.TOP_RATED;
-                    getMovies(currentPage);
-                    return true;
-                    case R.id.upcoming:
-                    sortBy = MoviesRepository.UPCOMING;
-                    getMovies(currentPage);
-                    return true;
-default:
-        return false;
+    /*private void setTitle() {
+        switch (sortBy) {
+            case MoviesRepository.POPULAR:
+                setTitle(getString(R.string.popular));
+                break;
+            case MoviesRepository.TOP_RATED:
+                setTitle(getString(R.string.top_rated));
+                break;
+            case MoviesRepository.UPCOMING:
+                setTitle(getString(R.string.upcoming));
+                break;
         }
-        }
+    }*/
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
+            @Override
+            public void onChanged(@Nullable CharSequence charSequence) {
+            }
         });
+    }
 
- */
+    OnMoviesClickCallback callback = new OnMoviesClickCallback() {
+        @Override
+        public void onClick(Movie movie) {
+            viewModel.setText(Integer.toString(movie.getId()));
+        }
+    };
+};
