@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements OnMoviesClickCall
         setContentView(R.layout.multiple_activity_fragment);
 
 
-
         if (findViewById(R.id.fragment_container) != null){
             if (savedInstanceState != null){ return;}
                 Toolbar toolbar = findViewById(R.id.toolbarPhone);
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesClickCall
             setSupportActionBar(toolbar);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainActivityFragment, new MainActivityFragment())
-                    .add(R.id.movieActivityFragment, new MovieActivityFragment())
+                    .replace(R.id.movieActivityFragment, new MovieActivityFragment())
                     .commit();
         }
     }
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesClickCall
 
             secondFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movieActivityFragment, secondFragment)
+                    .replace(R.id.movieActivityFragment, secondFragment)
                     .commit();
         }
 
