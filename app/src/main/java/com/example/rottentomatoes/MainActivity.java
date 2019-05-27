@@ -1,6 +1,7 @@
 package com.example.rottentomatoes;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity implements OnMoviesClickCallback {
 
 
     @Override
@@ -22,15 +23,59 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.multiple_activity_fragment);
 
+        if (findViewById(R.id.fragment_container) != null){
+            if (savedInstanceState != null){ return;}
+                MainActivityFragment firstFragment = new MainActivityFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, firstFragment)
+                        .commit();
 
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        } else {
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mainActivityFragment, new MainActivityFragment())
+                    .add(R.id.movieActivityFragment, new MovieActivityFragment())
+                    .commit();
+
+        }
 
 
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.mainActivityFragment, new MainActivityFragment())
-                .add(R.id.movieActivityFragment, new MovieActivityFragment())
-                .commit();
     }
+    @Override
+    public void onAttachFragment(Fragment fragment){
+       if (fragment instanceof MainActivityFragment){
+            MainActivityFragment mainActivityFragment = (MainActivityFragment) fragment;
+            mainActivityFragment.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(Movie movie) {
+
+        if (findViewById(R.id.fragment_container) != null) {
+            MovieActivityFragment secondFragment = new MovieActivityFragment();
+            String temp = Integer.toString(movie.getId());
+            Bundle bundle = new Bundle();
+            bundle.putString("message", temp);
+
+            secondFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, secondFragment)
+                    .commit();
+        } else {
+            MovieActivityFragment secondFragment = new MovieActivityFragment();
+            String temp = Integer.toString(movie.getId());
+            Bundle bundle = new Bundle();
+            bundle.putString("message", temp);
+
+            secondFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.movieActivityFragment, secondFragment)
+                    .commit();
+        }
+
+    }
+
+
 }

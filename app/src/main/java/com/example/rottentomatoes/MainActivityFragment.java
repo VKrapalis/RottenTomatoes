@@ -2,6 +2,7 @@ package com.example.rottentomatoes;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,6 @@ public class MainActivityFragment extends Fragment {
 
     private RecyclerView moviesList;
     private MoviesAdapter adapter;
-    private SharedViewModel viewModel;
 
     private MoviesRepository moviesRepository;
 
@@ -45,7 +45,7 @@ public class MainActivityFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View retView = inflater.inflate(R.layout.activity_main_fragment, container, false);
 
         moviesRepository = MoviesRepository.getInstance();
@@ -61,7 +61,7 @@ public class MainActivityFragment extends Fragment {
         return retView;
     }
 
-   private void setupOnScrollListener() {
+    private void setupOnScrollListener() {
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         moviesList.setLayoutManager(manager);
         moviesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -92,7 +92,7 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onError() {
-               showError();
+                showError();
             }
 
 
@@ -174,21 +174,19 @@ public class MainActivityFragment extends Fragment {
                 break;
         }
     }*/
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
-        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
-            @Override
-            public void onChanged(@Nullable CharSequence charSequence) {
-            }
-        });
-    }
+
+
 
     OnMoviesClickCallback callback = new OnMoviesClickCallback() {
         @Override
         public void onClick(Movie movie) {
-            viewModel.setText(Integer.toString(movie.getId()));
         }
+
     };
-};
+
+   public void setOnClickListener(OnMoviesClickCallback callback){
+        this.callback = callback;
+    }
+
+
+}
