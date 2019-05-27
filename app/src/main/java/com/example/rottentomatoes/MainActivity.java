@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements OnMoviesClickCallback {
+public class MainActivity extends AppCompatActivity implements OnMoviesClickCallback {
 
 
     @Override
@@ -23,24 +23,27 @@ public class MainActivity extends FragmentActivity implements OnMoviesClickCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.multiple_activity_fragment);
 
+
+
         if (findViewById(R.id.fragment_container) != null){
             if (savedInstanceState != null){ return;}
+                Toolbar toolbar = findViewById(R.id.toolbarPhone);
+                setSupportActionBar(toolbar);
                 MainActivityFragment firstFragment = new MainActivityFragment();
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, firstFragment)
                         .commit();
 
-        } else {
 
+
+        } else {
+            Toolbar toolbar = findViewById(R.id.toolbarTablet);
+            setSupportActionBar(toolbar);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainActivityFragment, new MainActivityFragment())
                     .add(R.id.movieActivityFragment, new MovieActivityFragment())
                     .commit();
-
         }
-
-
-
     }
     @Override
     public void onAttachFragment(Fragment fragment){
@@ -76,6 +79,8 @@ public class MainActivity extends FragmentActivity implements OnMoviesClickCallb
         }
 
     }
+
+
 
 
 }
