@@ -1,16 +1,10 @@
 package com.example.rottentomatoes;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +23,6 @@ public class MainActivityFragment extends Fragment {
     private MoviesRepository moviesRepository;
 
     private List<Genre> movieGenres;
-    private List<Movie> movies;
 
     private boolean isFetchingMovies;
     private int currentPage = 1;
@@ -50,7 +43,7 @@ public class MainActivityFragment extends Fragment {
 
         moviesRepository = MoviesRepository.getInstance();
 
-        moviesList = (RecyclerView) retView.findViewById(R.id.movies_list);
+        moviesList = retView.findViewById(R.id.movies_list);
         moviesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         getGenres();
@@ -116,8 +109,6 @@ public class MainActivityFragment extends Fragment {
                 }
                 currentPage = page;
                 isFetchingMovies = false;
-
-                //setTitle();
             }
 
             @Override
@@ -160,22 +151,6 @@ public class MainActivityFragment extends Fragment {
                 return false;
         }
     }
-
-    /*private void setTitle() {
-        switch (sortBy) {
-            case MoviesRepository.POPULAR:
-                setTitle(getString(R.string.popular));
-                break;
-            case MoviesRepository.TOP_RATED:
-                setTitle(getString(R.string.top_rated));
-                break;
-            case MoviesRepository.UPCOMING:
-                setTitle(getString(R.string.upcoming));
-                break;
-        }
-    }*/
-
-
 
     OnMoviesClickCallback callback = new OnMoviesClickCallback() {
         @Override

@@ -24,15 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieActivityFragment extends Fragment {
-    private EditText editText;
     private String movieid;
-    private TextView textView;
 
-    public static String MOVIE_ID = "movie_id";
 
     private static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780";
-    private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
-    private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
+
 
     private ImageView movieBackdrop;
     private TextView movieTitle;
@@ -41,8 +37,6 @@ public class MovieActivityFragment extends Fragment {
     private TextView movieOverviewLabel;
     private TextView movieReleaseDate;
     private RatingBar movieRating;
-    private LinearLayout movieTrailers;
-    private LinearLayout movieReviews;
 
     private MoviesRepository moviesRepository;
     private int movieId;
@@ -55,21 +49,13 @@ public class MovieActivityFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
-
-
-            movieid = bundle.getString("message", "bla");
-            //editText.setText(movieid);}
+            movieid = bundle.getString("message", "null");
             movieId = Integer.parseInt(movieid);
-            Log.d("123",movieid);
-
         }
         moviesRepository = MoviesRepository.getInstance();
-
         initUI(retView);
-
         getMovie();
 
-        //Final FragmentActivity fragmentBelongActivity = getActivity();
         return retView;
     }
 
@@ -82,8 +68,6 @@ public class MovieActivityFragment extends Fragment {
         movieOverviewLabel = view.findViewById(R.id.summaryLabel);
         movieReleaseDate = view.findViewById(R.id.movieDetailsReleaseDate);
         movieRating = view.findViewById(R.id.movieDetailsRating);
-        movieTrailers = view.findViewById(R.id.movieTrailers);
-        movieReviews = view.findViewById(R.id.movieReviews);
     }
 
     private void getMovie() {
@@ -107,7 +91,7 @@ public class MovieActivityFragment extends Fragment {
 
             @Override
             public void onError() {
-              //  finish();
+                getActivity().finish();
             }
         });
     }
@@ -132,15 +116,8 @@ public class MovieActivityFragment extends Fragment {
         });
     }
 
-    /*@Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }*/
-
-
     private void showError() {
-        //Toast.makeText(MovieActivityFragment.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -148,13 +125,8 @@ public class MovieActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = this.getArguments();
         if (bundle != null){
-
-
-        movieid = bundle.getString("message", "bla");
-        //editText.setText(movieid);}
-        movieId = Integer.parseInt(movieid);
-            Log.d("123",movieid);
-
+            movieid = bundle.getString("message", "null");
+            movieId = Integer.parseInt(movieid);
+        }
     }
-}
 }
