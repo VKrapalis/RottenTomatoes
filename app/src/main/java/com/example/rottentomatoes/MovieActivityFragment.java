@@ -63,10 +63,7 @@ public class MovieActivityFragment extends Fragment {
             Log.d("123",movieid);
 
         }
-
-
         moviesRepository = MoviesRepository.getInstance();
-
 
         initUI(retView);
 
