@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesClickCall
             secondFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, secondFragment)
+                    .addToBackStack(null)
                     .commit();
         } else {
             MovieActivityFragment secondFragment = new MovieActivityFragment();

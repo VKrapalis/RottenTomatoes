@@ -34,7 +34,7 @@ public class MainActivityFragment extends Fragment {
     private boolean isFetchingMovies;
     private int currentPage = 1;
 
-    private String sortBy = MoviesRepository.TOP_RATED;
+    private String sortBy = MoviesRepository.POPULAR;
 
 
     @Override
