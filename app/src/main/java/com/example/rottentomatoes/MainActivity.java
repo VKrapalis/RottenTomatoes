@@ -70,7 +70,4 @@ public class MainActivity extends AppCompatActivity implements OnMoviesClickCall
 
     }
 
-
-
-
 }

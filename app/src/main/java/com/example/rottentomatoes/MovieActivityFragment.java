@@ -91,7 +91,7 @@ public class MovieActivityFragment extends Fragment {
 
             @Override
             public void onError() {
-                getActivity().finish();
+               // getActivity().finish();
             }
         });
     }
@@ -117,7 +117,7 @@ public class MovieActivityFragment extends Fragment {
     }
 
     private void showError() {
-        Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
     }
 
     @Override

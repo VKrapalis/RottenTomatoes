@@ -119,7 +119,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void showError() {
-        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -137,7 +137,6 @@ public class MainActivityFragment extends Fragment {
             case R.id.popular:
                 sortBy = MoviesRepository.POPULAR;
                 getMovies(currentPage);
-                Toast.makeText(getActivity(), sortBy, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.top_rated:
                 sortBy = MoviesRepository.TOP_RATED;
